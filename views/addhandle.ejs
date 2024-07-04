@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Add Handles</h1>
+    <form action="/addHandles" method="POST">
+        <input type="hidden" name="userId" value="<%= user._id %>">
+        <label for="handleName">Handle Name:</label>
+        <select id="handleName" name="handleName" required>
+            <option value="codeforces">Codeforces</option>
+            <option value="leetcode">Leetcode</option>
+            <option value="codechef">Codechef</option>
+            <option value="gfg">GeeksforGeeks</option>
+        </select><br>
+        <label for="handleLink">Handle Link:</label>
+        <input type="url" id="handleLink" name="handleLink" required><br>
+        <button type="submit">Add Handle</button>
+    </form>
+</body>
+</html>

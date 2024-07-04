@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Create a New Question</h1>
+    <!-- <p>Welcome <%= user.first_name %>!</p> -->
+  <form action="/questions?email=<%= user.email %>" method="POST">
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" required unique>
+    <br>
+    <label for="link">Link:</label>
+    <input type="url" id="link" name="link">
+    <br>
+    <label for="topics">Topics:</label>
+    <br>
+    <input type="checkbox" id="topic1" name="topics" value="Arrays">
+    <label for="topic1"> Arrays</label><br>
+    <input type="checkbox" id="topic2" name="topics" value="Linked Lists">
+    <label for="topic2"> Linked Lists</label><br>
+    <input type="checkbox" id="topic3" name="topics" value="Trees">
+    <label for="topic3"> Trees</label><br>
+    <input type="checkbox" id="topic4" name="topics" value="Graphs">
+    <label for="topic4"> Graphs</label><br>
+    <input type="checkbox" id="topic5" name="topics" value="Dynamic Programming">
+    <label for="topic5"> Dynamic Programming</label><br>
+    <input type="checkbox" id="topic6" name="topics" value="Sorting and Searching">
+    <label for="topic6"> Sorting and Searching</label><br>
+    <br>
+    <label for="solution">Solution:</label><br>
+    <textarea id="solution" name="solution" rows="4" cols="50" placeholder="Provide solution description here..."></textarea>
+    <br>
+    <button type="submit">Submit</button>
+    <button type="button" onclick="window.location.href='/';">Cancel</button>
+  </form>
+</body>
+</html>

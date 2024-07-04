@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Profile</title>
+      </head>
+      <body>
+        <h1>User Profile</h1>
+        <h3>Basic details</h3>
+        <img
+          src="./uploads/<%= user.profile_image %>"
+          alt="Profile Image"
+          style="width: 150px; height: 150px"
+        /><br />
+        <strong>First Name:</strong> <%= user.first_name %><br />
+        <strong>Last Name:</strong> <%= user.last_name %><br />
+        <strong>College:</strong> <%= user.college %><br />
+        <strong>City:</strong> <%= user.city %><br />
+        <strong>Email:</strong> <%= user.email %><br />
+        <strong>User Handle:</strong> <%= user.userhandle %><br />
+
+        <h3>Handles</h3>
+        <% if (user.handles && Object.keys(user.handles).length > 0) { %>
+        <ul>
+          <% for (const [handleName, handleLink] of user.handles.entries()) { %>
+          <li>
+            <strong><%= handleName %>:</strong>
+            <a href="<%= handleLink %>" target="_blank"><%= handleLink %></a>
+          </li>
+          <% } %>
+        </ul>
+        <% } else { %>
+        <p>No handles added.</p>
+        <% } %>
+
+        <h5>Edit details</h5>
+        <a href="/edit?userId=<%= user._id %>">
+          <button type="button">Edit Details</button> </a
+        ><br />
+
+        <h5>Add handles</h5>
+        <a href="/handle?userId=<%= user._id %>">
+          <button type="button">Add Handle</button> </a
+        ><br />
+
+        <h3>Search User by Handle</h3>
+        <form action="/searchUser" method="get">
+          <label for="searchHandle">User Handle:</label>
+          <input type="text" id="searchHandle" name="userhandle" required />
+          <input type="hidden" name="userId" value="<%= user._id %>">
+          <button type="submit">Search</button>
+        </form>
+
+        <a href="/landing?userId=<%= user._id %>">
+          <button type="button">Go to Landing Page</button>
+        </a>
+      </body>
+    </html>
+  </body>
+</html>

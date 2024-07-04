@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Document</title>
+</head>
+<body>
+    <h1>Welcome <%= user.first_name %></h1>
+    <a href="register"> Register </a><br>
+    <a href="signin"> Signin </a><br>
+    <a href="/question?email=<%= user.email %>">Add Question</a><br>
+    <a href="/profile?email=<%= user.email %>">Profile</a>
+
+    <h2><a  href="/bookmarkquestions?email=<%= user.email %>">Book mark questions</a></h2>
+    <h1>All Questions</h1>
+    <% if (questions.length > 0) { %>
+        <ul>
+            <% questions.forEach(function(question) { %>
+                <li>
+                    <h2><a href="<%= question.link %>" target="_blank"><%= question.title %></a></h2>
+                    <ul>
+                        <% question.topics.forEach(function(topic) { %>
+                            <li><%= topic %></li>
+                        <% }) %>
+                    </ul>
+                    <!-- Just keep this pre to preserve the format -->
+                    <!-- <% if (question.solution) { %>
+                        <p><strong>Solution:</strong></p>
+                        <pre><%= question.solution %></pre>
+                    <% } else { %>
+                        <p>No solution available.</p>
+                    <% } %> -->
+                    <form action="/bookmark/<%= question._id %>/<%= user.email %>" method="POST">
+                        <button type="submit">Bookmark</button>
+                    </form>
+                    <form action="/comment/<%= question._id %>/<%= user._id %>" method="POST">
+                        <textarea name="comment" rows="4" cols="50"></textarea><br><br>
+                        <button type="submit">Add Comment</button>
+                    </form>
+                    <ul>
+                        <% comments.forEach(function(comment) { %>
+                            <% if (comment.questionId.equals(question._id)) { %>
+                                <li>
+                                    <strong><%= comment.userId.userhandle %>:</strong> <%= comment.comment %>
+                                </li>
+                            <% } %>
+                        <% }) %>
+                    </ul>
+                </li>
+                
+            <% }) %>
+            
+        </ul>   
+    <% } else { %>
+        <p>No questions available.</p>
+    <% } %>
+    <script>
+        if (window.location.pathname !== '/') {
+          window.history.pushState({}, '', '/');
+        }
+    </script>
+</body>
+</html>

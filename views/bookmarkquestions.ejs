@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Bookmarked Questions for <%= user.first_name %> <%= user.last_name %></h1>
+    <% if (bookmarkedQuestions.length > 0) { %>
+        <ul>
+            <% bookmarkedQuestions.forEach(function(question) { %>
+                <li>
+                    <h2><a href="<%= question.link %>" target="_blank"><%= question.title %></a></h2>
+                    <ul>
+                        <% question.topics.forEach(function(topic) { %>
+                            <li><%= topic %></li>
+                        <% }) %>
+                    </ul>
+                    <form action="/unbookmark/<%= question._id %>/<%= user.email %>" method="POST">
+                        <button type="submit">Remove Bookmark</button>
+                    </form>
+                </li>
+            <% }) %>
+        </ul>
+    <% } else { %>
+        <p>No bookmarked questions available.</p>
+    <% } %>
+
+    <a href="/landing?userId=<%= user._id %>">
+        <button type="button">Go to Landing Page</button>
+      </a>
+      
+</body>
+</html>
