@@ -24,14 +24,7 @@
                         <% question.topics.forEach(function(topic) { %>
                             <li><%= topic %></li>
                         <% }) %>
-                    </ul>
-                    <!-- Just keep this pre to preserve the format -->
-                    <!-- <% if (question.solution) { %>
-                        <p><strong>Solution:</strong></p>
-                        <pre><%= question.solution %></pre>
-                    <% } else { %>
-                        <p>No solution available.</p>
-                    <% } %> -->
+                        </ul>
                     <form action="/bookmark/<%= question._id %>/<%= user.email %>" method="POST">
                         <button type="submit">Bookmark</button>
                     </form>
@@ -56,6 +49,41 @@
     <% } else { %>
         <p>No questions available.</p>
     <% } %>
+
+    <h1>My Questions</h1>
+<% const myQuestions = questions.filter(question => question.userId.equals(user._id)); %>
+<% if (myQuestions.length > 0) { %>
+    <ul>
+        <% myQuestions.forEach(function(question) { %>
+            <li>
+                <h2><a href="<%= question.link %>" target="_blank"><%= question.title %></a></h2>
+                <ul>
+                    <% question.topics.forEach(function(topic) { %>
+                        <li><%= topic %></li>
+                    <% }) %>
+                </ul>
+                <form action="/bookmark/<%= question._id %>/<%= user.email %>" method="POST">
+                    <button type="submit">Bookmark</button>
+                </form>
+                <form action="/comment/<%= question._id %>/<%= user._id %>" method="POST">
+                    <textarea name="comment" rows="4" cols="50"></textarea><br><br>
+                    <button type="submit">Add Comment</button>
+                </form>
+                <ul>
+                    <% comments.forEach(function(comment) { %>
+                        <% if (comment.questionId.equals(question._id)) { %>
+                            <li>
+                                <strong><%= comment.userId.userhandle %>:</strong> <%= comment.comment %>
+                            </li>
+                        <% } %>
+                    <% }) %>
+                </ul>
+            </li>
+        <% }) %>
+    </ul>
+<% } else { %>
+    <p>You have not posted any questions yet.</p>
+<% } %>
     <script>
         if (window.location.pathname !== '/') {
           window.history.pushState({}, '', '/');

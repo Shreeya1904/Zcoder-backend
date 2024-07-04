@@ -23,7 +23,8 @@ mongoose.connect("mongodb://localhost:27017/zcoder")
         solution: {
             type: String,
             required: true,
-        }
+        },
+        userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
     });
     
 

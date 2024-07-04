@@ -20,6 +20,36 @@
         <input type="text" id="userHandle" name="userHandle" value="<%= user.userhandle %>"><br>
         <input type="hidden" id="email" name="email" value="<%= user.email %>"><br>
         <input type="hidden" id="password" name="password" value="<%= user.password %>"><br>
+
+        <label for="about">About:</label>
+        <textarea id="about" name="about"><%= user.about %></textarea><br>
+        
+        <label for="skills">Skills:</label><br>
+        <input type="checkbox" id="skill1" name="skills" value="JavaScript" <% if (user.skills.includes('JavaScript')) { %>checked<% } %>>
+        <label for="skill1">JavaScript</label><br>
+        <input type="checkbox" id="skill2" name="skills" value="Python" <% if (user.skills.includes('Python')) { %>checked<% } %>>
+        <label for="skill2">Python</label><br>
+        <input type="checkbox" id="skill3" name="skills" value="Java" <% if (user.skills.includes('Java')) { %>checked<% } %>>
+        <label for="skill3">Java</label><br>
+        <input type="checkbox" id="skill4" name="skills" value="C++" <% if (user.skills.includes('C++')) { %>checked<% } %>>
+        <label for="skill4">C++</label><br>
+        <input type="checkbox" id="skill5" name="skills" value="React" <% if (user.skills.includes('React')) { %>checked<% } %>>
+        <label for="skill5">React</label><br>
+        <input type="checkbox" id="skill6" name="skills" value="Node.js" <% if (user.skills.includes('Node.js')) { %>checked<% } %>>
+        <label for="skill6">Node.js</label><br>
+        <input type="checkbox" id="skill7" name="skills" value="HTML/CSS" <% if (user.skills.includes('HTML/CSS')) { %>checked<% } %>>
+        <label for="skill7">HTML/CSS</label><br>
+        <input type="checkbox" id="skill8" name="skills" value="Tailwind CSS" <% if (user.skills.includes('Tailwind CSS')) { %>checked<% } %>>
+        <label for="skill8">Tailwind CSS</label><br>
+        <input type="checkbox" id="skill9" name="skills" value="App Development" <% if (user.skills.includes('App Development')) { %>checked<% } %>>
+        <label for="skill9">App Development</label><br>
+        <input type="checkbox" id="skill10" name="skills" value="Machine Learning" <% if (user.skills.includes('Machine Learning')) { %>checked<% } %>>
+        <label for="skill10">Machine Learning</label><br>
+        <input type="checkbox" id="skill11" name="skills" value="Artificial Intelligence" <% if (user.skills.includes('Artificial Intelligence')) { %>checked<% } %>>
+        <label for="skill11">Artificial Intelligence</label><br>
+
+        
+
         <button type="submit">Save Changes</button>
     </form>
 </body>

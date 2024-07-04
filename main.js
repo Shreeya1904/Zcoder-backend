@@ -58,7 +58,7 @@ main.get("/addquestion", (req, res) => {
 
 main.post("/questions", async (req, res) => {
   const userEmail = req.query.email;
-  const userId = "6662cd42490ac3d411468604";
+  const user = await User.findOne({ email: userEmail });
   const { title, link, topics, solution } = req.body;
   const topicsArray = Array.isArray(topics) ? topics : [topics];
   const question = new Question({
@@ -66,6 +66,7 @@ main.post("/questions", async (req, res) => {
     link: link,
     topics: topicsArray,
     solution: solution,
+    userId: user._id
   });
 
   try {
@@ -107,7 +108,13 @@ main.post("/register", upload.single("profile_image"), async (req, res) => {
       password: hashedPassword,
       bookmark: [],
       following: [],
-      
+      handles: {
+        "Codeforces": "https://codeforces.com/",
+        "Codechef": "https://codechef.com/",
+        "Atcoder": "https://atcoder.jp/",
+        "Geeks for Geeks": "https://www.geeksforgeeks.org/courses?source=google&medium=cpc&device=c&keyword=geeksforgeeks&matchtype=e&campaignid=20039445781&adgroup=147845288105&gad_source=1&gclid=Cj0KCQjwvb-zBhCmARIsAAfUI2v1KJMpGxPciw1K_nrOvdH4tBuCxdVuQQbIfXOMF4x508G9i4w9k6gaAq0uEALw_wcB",
+        "Leetcode": "https://leetcode.com/"
+      }
     });
 
     try {
@@ -278,7 +285,7 @@ main.get("/profile", async (req, res) => {
         res.render("signin");
       } else {
         console.log("Profile Image:", user.profile_image);
-        console.
+        console.log(user);
         res.render("profile", { user });
       }
     }
@@ -311,6 +318,8 @@ main.post("/update", async (req, res) => {
       email: req.body.email,
       userhandle: req.body.userHandle,
       password: req.body.password,
+      about: req.body.about,
+      skills: Array.isArray(req.body.skills) ? req.body.skills : [req.body.skills]
     };
 
     const updatedUser = await User.findOneAndUpdate(
