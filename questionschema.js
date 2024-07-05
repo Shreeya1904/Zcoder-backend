@@ -24,6 +24,7 @@ mongoose.connect("mongodb://localhost:27017/zcoder")
             type: String,
             required: true,
         },
+        visibility: { type: Boolean, default: false },
         userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
     });
     

@@ -59,13 +59,14 @@ main.get("/addquestion", (req, res) => {
 main.post("/questions", async (req, res) => {
   const userEmail = req.query.email;
   const user = await User.findOne({ email: userEmail });
-  const { title, link, topics, solution } = req.body;
+  const { title, link, topics, solution, visibility } = req.body;
   const topicsArray = Array.isArray(topics) ? topics : [topics];
   const question = new Question({
     title: title,
     link: link,
     topics: topicsArray,
     solution: solution,
+    visibility: visibility === 'community' ? false : true,
     userId: user._id
   });
 

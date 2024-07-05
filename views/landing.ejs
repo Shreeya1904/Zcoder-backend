@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <title>Document</title>
 </head>
 <body>
@@ -13,80 +12,93 @@
     <a href="/question?email=<%= user.email %>">Add Question</a><br>
     <a href="/profile?email=<%= user.email %>">Profile</a>
 
-    <h2><a  href="/bookmarkquestions?email=<%= user.email %>">Book mark questions</a></h2>
+    <h2><a href="/bookmarkquestions?email=<%= user.email %>">Bookmark Questions</a></h2>
+    
     <h1>All Questions</h1>
     <% if (questions.length > 0) { %>
         <ul>
-            <% questions.forEach(function(question) { %>
+            <% questions.forEach(function(question) { %> 
+                <% if (!question.visibility) { %> <!-- Check if visibility is false for community questions -->
+                    <li>
+                        <h2><a href="<%= question.link %>" target="_blank"><%= question.title %></a></h2>
+                        <ul>
+                            <% question.topics.forEach(function(topic) { %>
+                                <li><%= topic %></li>
+                            <% }) %>
+                        </ul>
+                        <form action="/bookmark/<%= question._id %>/<%= user.email %>" method="POST">
+                            <button type="submit">Bookmark</button>
+                        </form>
+                        <form action="/comment/<%= question._id %>/<%= user._id %>" method="POST">
+                            <textarea name="comment" rows="4" cols="50"></textarea><br><br>
+                            <button type="submit">Add Comment</button>
+                        </form>
+                        <ul>
+                            <% comments.forEach(function(comment) { %>
+                                <% if (comment.questionId.equals(question._id)) { %>
+                                    <li>
+                                        <strong><%= comment.userId.userhandle %>:</strong> <%= comment.comment %>
+                                    </li>
+                                <% } %>
+                            <% }) %>
+                        </ul>
+                    </li>
+                <% } %> 
+            <% }) %> 
+        </ul>   
+    <% } else { %>
+        <p>No questions available.</p>
+    <% } %>
+    
+    <h1>My Questions</h1>
+    <% const myQuestions = questions.filter(question => question.userId.equals(user._id)); %>
+    <% if (myQuestions.length > 0) { %>
+        <ul>
+            <% myQuestions.forEach(function(question) { %>
                 <li>
                     <h2><a href="<%= question.link %>" target="_blank"><%= question.title %></a></h2>
                     <ul>
                         <% question.topics.forEach(function(topic) { %>
                             <li><%= topic %></li>
                         <% }) %>
-                        </ul>
+                    </ul>
                     <form action="/bookmark/<%= question._id %>/<%= user.email %>" method="POST">
                         <button type="submit">Bookmark</button>
                     </form>
-                    <form action="/comment/<%= question._id %>/<%= user._id %>" method="POST">
-                        <textarea name="comment" rows="4" cols="50"></textarea><br><br>
-                        <button type="submit">Add Comment</button>
-                    </form>
-                    <ul>
-                        <% comments.forEach(function(comment) { %>
-                            <% if (comment.questionId.equals(question._id)) { %>
-                                <li>
-                                    <strong><%= comment.userId.userhandle %>:</strong> <%= comment.comment %>
-                                </li>
-                            <% } %>
-                        <% }) %>
-                    </ul>
+                    
                 </li>
-                
             <% }) %>
-            
-        </ul>   
+        </ul>
     <% } else { %>
-        <p>No questions available.</p>
+        <p>You have not posted any questions yet.</p>
+    <% } %>
+    
+    <h2>Private Questions</h2>
+    <% if (questions.some(question => question.visibility)) { %>
+        <ul>
+            <% questions.forEach(function(question) { %>
+                <% if (question.visibility) { %> <!-- Check if visibility is true for private questions -->
+                    <li>
+                        <h2><a href="<%= question.link %>" target="_blank"><%= question.title %></a></h2>
+                        <ul>
+                            <% question.topics.forEach(function(topic) { %>
+                                <li><%= topic %></li>
+                            <% }) %>
+                        </ul>
+                        <form action="/bookmark/<%= question._id %>/<%= user.email %>" method="POST">
+                            <button type="submit">Bookmark</button>
+                        </form>
+                    </li>
+                <% } %>
+            <% }) %>
+        </ul>
+    <% } else { %>
+        <p>No private questions available.</p>
     <% } %>
 
-    <h1>My Questions</h1>
-<% const myQuestions = questions.filter(question => question.userId.equals(user._id)); %>
-<% if (myQuestions.length > 0) { %>
-    <ul>
-        <% myQuestions.forEach(function(question) { %>
-            <li>
-                <h2><a href="<%= question.link %>" target="_blank"><%= question.title %></a></h2>
-                <ul>
-                    <% question.topics.forEach(function(topic) { %>
-                        <li><%= topic %></li>
-                    <% }) %>
-                </ul>
-                <form action="/bookmark/<%= question._id %>/<%= user.email %>" method="POST">
-                    <button type="submit">Bookmark</button>
-                </form>
-                <form action="/comment/<%= question._id %>/<%= user._id %>" method="POST">
-                    <textarea name="comment" rows="4" cols="50"></textarea><br><br>
-                    <button type="submit">Add Comment</button>
-                </form>
-                <ul>
-                    <% comments.forEach(function(comment) { %>
-                        <% if (comment.questionId.equals(question._id)) { %>
-                            <li>
-                                <strong><%= comment.userId.userhandle %>:</strong> <%= comment.comment %>
-                            </li>
-                        <% } %>
-                    <% }) %>
-                </ul>
-            </li>
-        <% }) %>
-    </ul>
-<% } else { %>
-    <p>You have not posted any questions yet.</p>
-<% } %>
     <script>
         if (window.location.pathname !== '/') {
-          window.history.pushState({}, '', '/');
+            window.history.pushState({}, '', '/');
         }
     </script>
 </body>
