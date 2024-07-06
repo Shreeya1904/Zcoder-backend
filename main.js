@@ -3,7 +3,7 @@ const main = express();
 const multer = require("multer");
 const session = require("express-session");
 const userId = "6662cd42490ac3d411468604";
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 main.use(
   session({
     secret: "your-secret-key",
