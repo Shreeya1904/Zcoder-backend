@@ -308,6 +308,8 @@ main.get("/edit", async (req, res) => {
   }
 });
 
+
+
 main.post("/update", async (req, res) => {
   try {
     const userId = req.query.userId;
@@ -446,5 +448,37 @@ main.post("/comment/:questionId/:userId", async (req, res) => {
     res.render("landing", { user, questions, comments});
   } catch (error) {
     res.status(500).send("Internal Server Error");
+  }
+});
+
+main.get("/update-password", async (req, res) => {
+  const userId = req.query.userId;
+  try {
+    const user = await User.findById(userId);
+    res.render("update-password", { user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+})
+
+main.post('/update-password', async (req, res) => {
+  try {
+    const userId = req.body.userId;
+    const newPassword = req.body.new_password;
+    const confirmPassword = req.body.confirm_password;
+
+    if (newPassword !== confirmPassword) {
+      return res.status(400).send('Passwords do not match.');
+    }
+
+    const user = await User.findById(userId);
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await User.findByIdAndUpdate(userId, { password: hashedPassword });
+    return res.render("profile", { user });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error updating password.');
   }
 });
